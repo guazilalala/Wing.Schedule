@@ -1,37 +1,39 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
-
-using Wing.Schedule.WPF.ViewModels.Windows;
-using Wpf.Ui.Controls;
+﻿using MahApps.Metro.Controls;
+using Prism.Regions;
+using System.Diagnostics;
 
 namespace Wing.Schedule.WPF.Views.Windows
 {
     public partial class MainWindow
     {
-        public MainWindowViewModel ViewModel { get; }
+        private readonly IRegionManager _regionManager;
 
-        public MainWindow(
-            MainWindowViewModel viewModel,
-            INavigationService navigationService,
-            IServiceProvider serviceProvider,
-            ISnackbarService snackbarService,
-            IContentDialogService contentDialogService
-        )
+        public MainWindow(IRegionManager regionManager)
         {
-            Wpf.Ui.Appearance.Watcher.Watch(this);
-
-            ViewModel = viewModel;
-            DataContext = this;
-
             InitializeComponent();
+            _regionManager = regionManager;
+        }
 
-            navigationService.SetNavigationControl(NavigationView);
-            snackbarService.SetSnackbarPresenter(SnackbarPresenter);
-            contentDialogService.SetContentPresenter(RootContentDialog);
+        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        {
+            this.HamburgerMenuControl.Content = e.InvokedItem;
 
-            NavigationView.SetServiceProvider(serviceProvider);
+            if (!e.IsItemOptions && this.HamburgerMenuControl.IsPaneOpen)
+            {
+                // You can close the menu if an item was selected
+                // this.HamburgerMenuControl.SetCurrentValue(HamburgerMenuControl.IsPaneOpenProperty, false);
+            }
+
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, RegionNames.TaskListRegion);
+        }
+
+        private void LaunchWingScheduleOnGitHub(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/guazilalala/Wing.Schedule",
+                UseShellExecute = true
+            });
         }
     }
 }

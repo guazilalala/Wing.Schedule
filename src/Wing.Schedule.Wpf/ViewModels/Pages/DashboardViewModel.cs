@@ -1,19 +1,30 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
+﻿using Prism.Mvvm;
+using Prism.Regions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Wing.Schedule.WPF.ViewModels.Pages
 {
-    public partial class DashboardViewModel : ObservableObject
+    public class DashboardViewModel : BindableBase, INavigationAware
     {
-        [ObservableProperty]
-        private int _counter = 0;
-
-        [RelayCommand]
-        private void OnCounterIncrement()
+        public DashboardViewModel()
         {
-            Counter++;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
         }
     }
 }

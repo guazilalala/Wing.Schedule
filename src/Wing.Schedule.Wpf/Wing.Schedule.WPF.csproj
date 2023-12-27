@@ -2,9 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<ApplicationIcon>wpfui-icon.ico</ApplicationIcon>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
@@ -14,28 +13,13 @@
 		<Content Include="appsettings.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<Content Include="wpfui-icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WPF-UI" Version="3.0.0-preview.4" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1 " />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1 " />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
-		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="7.4.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Remove="Assets\wpfui-icon-256.png" />
-		<None Remove="Assets\wpfui-icon-1024.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Resource Include="Assets\wpfui-icon-256.png" />
-		<Resource Include="Assets\wpfui-icon-1024.png" />
+		<PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0476" />
+		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -46,7 +30,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Wing.Schedule.EntityFrameworkCore\Wing.Schedule.EntityFrameworkCore.csproj" />
+	  <Folder Include="Assets\" />
+	  <Folder Include="Helpers\" />
+	  <Folder Include="Services\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Wing.Schedule\Wing.Schedule.csproj" />
 	</ItemGroup>
 
 </Project>

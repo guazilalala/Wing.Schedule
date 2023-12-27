@@ -1,51 +1,25 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
-
-using System.Collections.ObjectModel;
-using Wpf.Ui.Common;
-using Wpf.Ui.Controls;
+﻿using MahApps.Metro.Controls;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace Wing.Schedule.WPF.ViewModels.Windows
 {
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : BindableBase
     {
-        [ObservableProperty]
-        private string _applicationTitle = "WPF UI - Wing.Schedule.Wpf";
+        private readonly IRegionManager _regionManager;
 
-        [ObservableProperty]
-        private ObservableCollection<object> _menuItems = new()
+        public MainWindowViewModel(IRegionManager regionManager)
         {
-            new NavigationViewItem()
-            {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Data",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-                TargetPageType = typeof(Views.Pages.DataPage)
-            }
-        };
+            _regionManager = regionManager;
+            OpenViewCommand = new DelegateCommand<HamburgerMenuIconItem>(OpenMenu);
+        }
 
-        [ObservableProperty]
-        private ObservableCollection<object> _footerMenuItems = new()
-        {
-            new NavigationViewItem()
-            {
-                Content = "Settings",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
-                TargetPageType = typeof(Views.Pages.SettingsPage)
-            }
-        };
+        public DelegateCommand<HamburgerMenuIconItem>? OpenViewCommand { get; set; }
 
-        [ObservableProperty]
-        private ObservableCollection<MenuItem> _trayMenuItems = new()
+        public void OpenMenu(HamburgerMenuIconItem menuItem)
         {
-            new MenuItem { Header = "Home", Tag = "tray_home" }
-        };
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, menuItem.Tag.ToString());
+        }
     }
 }
