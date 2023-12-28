@@ -36,6 +36,11 @@ public class Program
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+
+            builder.Services.AddRazorPages();
+            builder.Services.AddServerSideBlazor();
+            builder.Services.AddAntDesign();
+
             if (IsMigrateDatabase(args))
             {
                 builder.Services.AddDataMigrationEnvironment();
@@ -51,6 +56,10 @@ public class Program
             }
 
             Log.Information("Starting Wing.Schedule.");
+
+            app.MapBlazorHub();
+            app.MapFallbackToPage("/_Host");
+
             await app.RunAsync();
             return 0;
         }
