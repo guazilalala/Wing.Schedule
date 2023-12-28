@@ -6,11 +6,11 @@ using Wing.Schedule.WPF.Views.Pages;
 
 namespace Wing.Schedule;
 
-public class ScheduleWpfModule : IModule
+public class ScheduleClientWpfModule : IModule
 {
     private readonly IRegionManager _regionManager;
 
-    public ScheduleWpfModule(IRegionManager regionManager)
+    public ScheduleClientWpfModule(IRegionManager regionManager)
     {
         _regionManager = regionManager;
     }

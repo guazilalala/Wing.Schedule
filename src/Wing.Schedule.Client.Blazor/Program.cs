@@ -40,7 +40,7 @@ public class Program
             {
                 builder.Services.AddDataMigrationEnvironment();
             }
-            await builder.AddApplicationAsync<ScheduleBlazorModule>();
+            await builder.AddApplicationAsync<ScheduleClientBlazorModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
 

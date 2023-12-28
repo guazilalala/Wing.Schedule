@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Wing.Schedule\Wing.Schedule.csproj" />
+	  <ProjectReference Include="..\Wing.Schedule\Wing.Schedule.Server.csproj" />
 	</ItemGroup>
 
 </Project>

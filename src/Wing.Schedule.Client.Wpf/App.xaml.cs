@@ -74,7 +74,7 @@ namespace Wing.Schedule.WPF
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<ScheduleWpfModule>();
+            moduleCatalog.AddModule<ScheduleClientWpfModule>();
         }
 
     }

@@ -36,7 +36,7 @@ namespace Wing.Schedule.Blazor;
     typeof(AbpSettingManagementBlazorServerModule),
     typeof(ScheduleModule)
 )]
-public class ScheduleBlazorModule : AbpModule
+public class ScheduleClientBlazorModule : AbpModule
 {
 
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -103,7 +103,7 @@ public class ScheduleBlazorModule : AbpModule
     {
         Configure<AbpRouterOptions>(options =>
         {
-            options.AppAssembly = typeof(ScheduleBlazorModule).Assembly;
+            options.AppAssembly = typeof(ScheduleClientBlazorModule).Assembly;
         });
     }
 

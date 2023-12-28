@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{25D4C66E-2173-478D-ABBE-0E9FC0E93B57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule.WPF", "src\Wing.Schedule.Wpf\Wing.Schedule.WPF.csproj", "{7461E980-F2D6-4A32-8634-872643C431E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule.Client.Wpf", "src\Wing.Schedule.Client.Wpf\Wing.Schedule.Client.Wpf.csproj", "{7461E980-F2D6-4A32-8634-872643C431E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule", "src\Wing.Schedule\Wing.Schedule.csproj", "{2ADC3E37-F20A-44F0-BA44-7D48C15BA4E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule.Server", "src\Wing.Schedule.Server\Wing.Schedule.Server.csproj", "{2ADC3E37-F20A-44F0-BA44-7D48C15BA4E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule.Blazor", "src\Wing.Schedule.Blazor\Wing.Schedule.Blazor.csproj", "{901EAF85-B4D4-4C11-B3F6-05B5347C00D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wing.Schedule.Client.Blazor", "src\Wing.Schedule.Client.Blazor\Wing.Schedule.Client.Blazor.csproj", "{901EAF85-B4D4-4C11-B3F6-05B5347C00D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

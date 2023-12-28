@@ -90,7 +90,7 @@ namespace Wing.Schedule;
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementHttpApiModule)
 )]
-public class ScheduleModule : AbpModule
+public class ScheduleServerModule : AbpModule
 {
     /* Single point to enable/disable multi-tenancy */
     public const bool IsMultiTenant = false;
@@ -104,7 +104,7 @@ public class ScheduleModule : AbpModule
         {
             options.AddAssemblyResource(
                 typeof(ScheduleResource),
-                typeof(ScheduleModule).Assembly
+                typeof(ScheduleServerModule).Assembly
             );
         });
 
@@ -203,11 +203,11 @@ public class ScheduleModule : AbpModule
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<ScheduleModule>();
+            options.FileSets.AddEmbedded<ScheduleServerModule>();
             if (hostingEnvironment.IsDevelopment())
             {
                 /* Using physical files in development, so we don't need to recompile on changes */
-                options.FileSets.ReplaceEmbeddedByPhysical<ScheduleModule>(hostingEnvironment.ContentRootPath);
+                options.FileSets.ReplaceEmbeddedByPhysical<ScheduleServerModule>(hostingEnvironment.ContentRootPath);
             }
         });
     }
@@ -228,16 +228,16 @@ public class ScheduleModule : AbpModule
     {
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
-            options.ConventionalControllers.Create(typeof(ScheduleModule).Assembly);
+            options.ConventionalControllers.Create(typeof(ScheduleServerModule).Assembly);
         });
     }
 
     private void ConfigureAutoMapper(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<ScheduleModule>();
+        context.Services.AddAutoMapperObjectMapper<ScheduleServerModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<ScheduleModule>();
+            options.AddMaps<ScheduleServerModule>();
         });
     }
 
