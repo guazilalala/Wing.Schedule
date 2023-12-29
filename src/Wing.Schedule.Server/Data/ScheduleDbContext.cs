@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Wing.Schedule.Data;
 
@@ -28,8 +26,6 @@ public class ScheduleDbContext : AbpDbContext<ScheduleDbContext>
         builder.ConfigureAuditLogging();
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
-        builder.ConfigureFeatureManagement();
-        builder.ConfigureTenantManagement();
 
         /* Configure your own entities here */
     }
