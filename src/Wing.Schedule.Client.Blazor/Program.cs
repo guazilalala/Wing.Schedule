@@ -3,6 +3,8 @@ using Serilog;
 using Serilog.Events;
 using Volo.Abp.Data;
 using Wing.Schedule.Blazor;
+using AntDesign.ProLayout;
+using Microsoft.AspNetCore.Components;
 
 namespace Wing.Schedule;
 
@@ -37,16 +39,24 @@ public class Program
                 .UseAutofac()
                 .UseSerilog();
 
+            //Êý¾Ý¿âÇ¨ÒÆ
+            if (IsMigrateDatabase(args))
+                builder.Services.AddDataMigrationEnvironment();
+
+
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddAntDesign();
-
-            if (IsMigrateDatabase(args))
+            builder.Services.AddScoped(sp => new HttpClient
             {
-                builder.Services.AddDataMigrationEnvironment();
-            }
+                BaseAddress = new Uri(sp.GetService<NavigationManager>()!.BaseUri)
+            });
+            builder.Services.Configure<ProSettings>(builder.Configuration.GetSection("ProSettings"));
+
             await builder.AddApplicationAsync<ScheduleClientBlazorModule>();
+
             var app = builder.Build();
+
             await app.InitializeApplicationAsync();
 
             if (IsMigrateDatabase(args))
@@ -57,7 +67,14 @@ public class Program
 
             Log.Information("Starting Wing.Schedule.");
 
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
             app.MapBlazorHub();
+
             app.MapFallbackToPage("/_Host");
 
             await app.RunAsync();

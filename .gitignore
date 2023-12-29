@@ -254,3 +254,5 @@ paket-files/
 # Schedule
 src/Wing.Schedule.ConsoleApp/Logs/logs.txt
 /src/Wing.Schedule.Blazor/appsettings.json
+/src/Wing.Schedule.Server/Logs/logs.txt
+/src/Wing.Schedule.Client.Blazor/Logs/logs.txt

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -10,7 +11,7 @@ using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Autofac;
@@ -18,12 +19,8 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.Emailing;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
-using Volo.Abp.FeatureManagement;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.Localization;
-using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
@@ -36,18 +33,15 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Swashbuckle;
-using Volo.Abp.TenantManagement;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Wing.Schedule.Data;
-using Wing.Schedule.Localization;
 
 namespace Wing.Schedule;
 
 [DependsOn(
     // ABP Framework packages
     typeof(AbpAspNetCoreMvcModule),
+    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAutofacModule),
     typeof(AbpAutoMapperModule),
@@ -75,16 +69,6 @@ namespace Wing.Schedule;
     typeof(AbpPermissionManagementHttpApiModule),
     typeof(AbpPermissionManagementEntityFrameworkCoreModule),
 
-    // Tenant Management module packages
-    typeof(AbpTenantManagementApplicationModule),
-    typeof(AbpTenantManagementHttpApiModule),
-    typeof(AbpTenantManagementEntityFrameworkCoreModule),
-
-    // Feature Management module packages
-    typeof(AbpFeatureManagementApplicationModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementHttpApiModule),
-
     // Setting Management module packages
     typeof(AbpSettingManagementApplicationModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
@@ -99,14 +83,6 @@ public class ScheduleServerModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
-        context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
-        {
-            options.AddAssemblyResource(
-                typeof(ScheduleResource),
-                typeof(ScheduleServerModule).Assembly
-            );
-        });
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {
@@ -145,7 +121,6 @@ public class ScheduleServerModule : AbpModule
         ConfigureAuthentication(context);
         ConfigureAutoMapper(context);
         ConfigureVirtualFiles(hostingEnvironment);
-        ConfigureLocalizationServices();
         ConfigureSwaggerServices(context.Services);
         ConfigureAutoApiControllers();
         ConfigureEfCore(context);
@@ -157,45 +132,6 @@ public class ScheduleServerModule : AbpModule
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
             options.IsDynamicClaimsEnabled = true;
-        });
-    }
-
-    private void ConfigureLocalizationServices()
-    {
-        Configure<AbpLocalizationOptions>(options =>
-        {
-            options.Resources
-                .Add<ScheduleResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
-                .AddVirtualJson("/Localization/Schedule");
-
-            options.DefaultResourceType = typeof(ScheduleResource);
-
-            options.Languages.Add(new LanguageInfo("en", "en", "English"));
-            options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
-            options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
-            options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
-            options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (UK)"));
-            options.Languages.Add(new LanguageInfo("hu", "hu", "Magyar"));
-            options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish"));
-            options.Languages.Add(new LanguageInfo("fr", "fr", "Français"));
-            options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi", "in"));
-            options.Languages.Add(new LanguageInfo("is", "is", "Icelandic", "is"));
-            options.Languages.Add(new LanguageInfo("it", "it", "Italiano", "it"));
-            options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Português"));
-            options.Languages.Add(new LanguageInfo("ro-RO", "ro-RO", "Română"));
-            options.Languages.Add(new LanguageInfo("ru", "ru", "Русский"));
-            options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak"));
-            options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
-            options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-            options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
-            options.Languages.Add(new LanguageInfo("es", "es", "Español"));
-            options.Languages.Add(new LanguageInfo("el", "el", "Ελληνικά"));
-        });
-
-        Configure<AbpExceptionLocalizationOptions>(options =>
-        {
-            options.MapCodeNamespace("Schedule", typeof(ScheduleResource));
         });
     }
 
@@ -259,7 +195,6 @@ public class ScheduleServerModule : AbpModule
                 configurationContext.UseMySQL();
             });
         });
-
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -267,28 +202,12 @@ public class ScheduleServerModule : AbpModule
         var env = context.GetEnvironment();
         var app = context.GetApplicationBuilder();
 
-        app.UseAbpRequestLocalization();
-
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Error");
-            app.UseHsts();
-        }
-
         app.UseHttpsRedirection();
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
-
-        if (IsMultiTenant)
-        {
-        }
 
         app.UseUnitOfWork();
         app.UseDynamicClaims();

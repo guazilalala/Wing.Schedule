@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="8.0.0" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="8.0.0" />
 		<PackageReference Include="Volo.Abp.Autofac" Version="8.0.0" />
 		<PackageReference Include="Volo.Abp.AutoMapper" Version="8.0.0" />
 		<PackageReference Include="Volo.Abp.Swashbuckle" Version="8.0.0" />
@@ -47,17 +48,6 @@
 		<PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="8.0.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.0.0" />
-		<PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="8.0.0" />
-		<PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.0.0" />
-		<PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="8.0.0" />
-		<PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="8.0.0" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.0.0" />
@@ -81,14 +71,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Remove="Localization\Schedule\*.json" />
-		<EmbeddedResource Include="Localization\Schedule\*.json" />
+		<Compile Remove="Properties\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Entities\" />
-		<Folder Include="Properties\" />
-		<Folder Include="Services\Dtos\" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
 	</ItemGroup>
 
 </Project>
